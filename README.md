@@ -19,6 +19,9 @@
 13.  [GLBP](#id13)
 14.  [Router on a Stick](#id14)
 15.  [RIPv2](#id15)
+16.  [OSPF](#id16)
+17.  [EIGRP](#id17)
+18.  [Redistribución](#id18)
 
 
 
@@ -338,7 +341,6 @@
 ```
 [Volver](#id0)
 
-
 <div id='id15' />
 
 # RIPv2
@@ -354,6 +356,71 @@
 
 ```console
     sh ip ro
+```
+
+[Volver](#id0)
+
+<div id='id16' />
+
+## OSPF
+```console
+    Comandos:
+        1. config t
+        2. router osfp 'area_ID'
+        2. network 'IP' 'WILDCARD' area 'ID'
+        3. end 
+        4. wr
+```
+
+[Volver](#id0)
+
+<div id='id17' />
+
+## EIGRP
+```console
+    Comandos:
+        1. config t
+        2. router eigrp 'ID'
+        2. network 'IP' 'WILDCARD' 
+        2. no auto-summary
+        3. end 
+        4. wr
+```
+
+[Volver](#id0)
+
+<div id='id18' />
+
+## REDISTRIBUCION ENTRE PROTOCOLOS DE RUTEO DINAMICO
+```console
+    RIP - (OSPF & EIGRP)
+        Comandos:
+            1. config t
+            2. router rip 
+            3. redistribute ospf 'id' metric 'numero_saltos'
+            4. redistribute eigrp 'id' metric 'numero_saltos'
+
+    OSPF - (RIP & EIGRP)
+        Comandos:
+            1. config t
+            2. router ospf 'id'
+            3. redistribute rip subnets
+            4. redistribute eigrp 'id' subnets
+
+    EIGRP - (RIP & OSPF)
+        Comandos:
+            1. config t
+            2. router eigrp 'id'
+            3. redistribute rip metric 'Bandwith' 'Delay' 'Reliability' 'Bandwith' 'MTU'
+            4. redistribute ospf 10 metric 'Bandwith' 'Delay' 'Reliability' 'Bandwith' 'MTU'
+
+        Nota:
+            La redistribución con EIGRP es la más complicada, ya que se deben de
+            configurar 5 parámetros específicos. En nuestro caso utilizaremos los
+            valores por defecto que recomiendan.
+
+            1. Redistribute rip metric 10000 100 255 1 1500
+            2. Redistribute ospf 10 metric 10000 100 255 1 1500
 ```
 
 [Volver](#id0)
